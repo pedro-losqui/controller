@@ -47,7 +47,7 @@
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-2.jpg"
+                            <img class="rounded-circle header-profile-user" src="{{ asset('assets/images/users/avatar-2.jpg') }}"
                                 alt="Header Avatar">
                             <span class="d-none d-xl-inline-block ms-1">Usuário Teste</span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
@@ -93,6 +93,8 @@
     <script src="{{ asset('assets/libs/jqvmap/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('assets/libs/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
     <script src="{{ asset('assets/js/pages/dashboard.init.js') }}"></script>
+    <script src="{{ asset('assets/libs/inputmask/jquery.inputmask.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/form-mask.init.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <livewire:scripts />
 </body>

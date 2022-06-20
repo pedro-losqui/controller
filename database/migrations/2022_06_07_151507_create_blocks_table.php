@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('blocks', function (Blueprint $table) {
             $table->id();
             $table->string('description', 150);
-            $table->integer('amount')->unsigned();
             $table->timestamps();
         });
     }

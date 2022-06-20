@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Block;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Block extends Model
 {
@@ -11,6 +12,5 @@ class Block extends Model
 
     protected $fillable = [
         'description',
-        'amount',
     ];
 }

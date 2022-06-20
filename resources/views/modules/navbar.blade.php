@@ -20,21 +20,28 @@
                 </li>
 
                 <li>
-                    <a href="#" class=" waves-effect">
+                    <a href="{{ route('consultant') }}" class=" waves-effect">
                         <i class="mdi mdi-account-supervisor"></i>
                         <span>Consultor</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class=" waves-effect">
+                    <a href="{{ route('product') }}" class=" waves-effect">
+                        <i class="mdi mdi-animation-outline"></i>
+                        <span>Produtos</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('block') }}" class=" waves-effect">
                         <i class="mdi mdi-sitemap"></i>
                         <span>Blocos</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class=" waves-effect">
+                    <a href="{{ route('iten') }}" class=" waves-effect">
                         <i class="mdi mdi-view-list"></i>
                         <span>Itens</span>
                     </a>
@@ -44,14 +51,14 @@
                 <li class="menu-title">Lançamentos</li>
 
                 <li>
-                    <a href="#" class=" waves-effect">
+                    <a href="{{ route('certification') }}" class=" waves-effect">
                         <i class="mdi mdi-certificate"></i>
                         <span>Certificações</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class=" waves-effect">
+                    <a href="{{ route('payament') }}" class=" waves-effect">
                         <i class="mdi mdi-point-of-sale"></i>
                         <span>Ordem de Serviço</span>
                     </a>
