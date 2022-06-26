@@ -22,21 +22,35 @@
                             <div class="">
                                 <div class="text-center">
                                 </div>
-
                                 <h4 class="font-size-18 text-muted mt-2 text-center">Integra</h4>
                                 <p class="mb-5 text-center">Faça login para continuar.</p>
-                                <form class="form-horizontal" action="">
+                                <form class="form-horizontal" action="{{ route('auth') }}" method="POST">
+                                    @csrf
                                     <div class="row">
+                                        @error('alert')
+                                        <div class="col-md-12">
+                                                <div class="alert alert-danger alert-dismissible fade show mb-2"
+                                                    role="alert">
+                                                    <strong>Ops!</strong> {{ $message }}
+                                                </div>
+                                        </div>
+                                        @enderror
                                         <div class="col-md-12">
                                             <div class="mb-4">
                                                 <label class="form-label" for="username">E-mail</label>
-                                                <input type="email" class="form-control" id="username"
-                                                    placeholder="Entre com seu e-mail">
+                                                <input type="email" name="email" class="form-control" id="username"
+                                                value="{{ old('email') }}" placeholder="Entre com seu e-mail">
+                                                @error('email')
+                                                    <span class="badge badge-soft-danger mt-2">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <div class="mb-4">
                                                 <label class="form-label" for="userpassword">Senha</label>
-                                                <input type="password" class="form-control" id="userpassword"
+                                                <input type="password" name="password" class="form-control" id="userpassword"
                                                     placeholder="Entre com sua senha">
+                                                @error('password')
+                                                    <span class="badge badge-soft-danger mt-2">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <div class="row">

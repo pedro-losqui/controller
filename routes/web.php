@@ -14,16 +14,18 @@ use App\Http\Controllers\Pages\ConsultantController;
 use App\Http\Controllers\Pages\CertificationController;
 
 Route::get('/',                 [LoginController::class, 'index'])->name('login');
+Route::post('/auth',            [LoginController::class, 'auth'])->name('auth');
+Route::post('/logout',          [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/home',             [HomeController::class, 'index'])->name('home');
-Route::get('/user',             [UserController::class, 'index'])->name('user');
-Route::get('/consultant',       [ConsultantController::class, 'index'])->name('consultant');
-Route::get('/product',          [ProductController::class, 'index'])->name('product');
-Route::get('/block',            [BlockController::class, 'index'])->name('block');
-Route::get('/iten',             [ItenController::class, 'index'])->name('iten');
-Route::get('/certification',    [CertificationController::class, 'index'])->name('certification');
-Route::get('/payament',         [PaymentController::class, 'index'])->name('payament');
-Route::get('/company',          [CompanyController::class, 'index'])->name('company');
-Route::get('/invoice/{id}',     [InvoiceController::class, 'index'])->name('invoice');
+Route::get('/home',             [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/user',             [UserController::class, 'index'])->name('user')->middleware('auth');
+Route::get('/consultant',       [ConsultantController::class, 'index'])->name('consultant')->middleware('auth');
+Route::get('/product',          [ProductController::class, 'index'])->name('product')->middleware('auth');
+Route::get('/block',            [BlockController::class, 'index'])->name('block')->middleware('auth');
+Route::get('/iten',             [ItenController::class, 'index'])->name('iten')->middleware('auth');
+Route::get('/certification',    [CertificationController::class, 'index'])->name('certification')->middleware('auth');
+Route::get('/payament',         [PaymentController::class, 'index'])->name('payament')->middleware('auth');
+Route::get('/company',          [CompanyController::class, 'index'])->name('company')->middleware('auth');
+Route::get('/invoice/{id}',     [InvoiceController::class, 'index'])->name('invoice')->middleware('auth');
 
 
