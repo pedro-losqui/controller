@@ -101,9 +101,11 @@
                                                     aria-label="Floating label select example">
                                                     <option selected="">Usuários</option>
                                                     @forelse($users as $item)
-                                                        @if($item->id != in_array($item->id, $ids))
-                                                            <option value="{{ $item->id }}">{{ $item->name }}
-                                                            </option>
+                                                        @if($item->id =! in_array($item->id, $ids))
+                                                            @if ($item->name =! 'Administrador Total')
+                                                                <option value="{{ $item->id }}">{{ $item->name }}
+                                                                </option>
+                                                            @endif
                                                         @endif
                                                     @empty
                                                         <div class="alert alert-danger mb-0 mt-3" role="alert">

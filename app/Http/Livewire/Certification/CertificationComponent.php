@@ -44,7 +44,7 @@ class CertificationComponent extends Component
 
     public function updated()
     {
-        if ($this->block_id && $this->block_id) {
+        if ($this->block_id && $this->product_id) {
             $this->getIten();
         }
     }
@@ -135,7 +135,6 @@ class CertificationComponent extends Component
         foreach ($consultant as $key => $value) {
             $value->percent_block = $progress;
             $value->save();
-
         }
     }
 
@@ -173,12 +172,8 @@ class CertificationComponent extends Component
 
     public function default()
     {
-        $this->user_id = '';
-        $this->pix = '';
-        $this->cpf = '';
-        $this->rg = '';
-        $this->bday = '';
-        $this->value = '';
-        $this->consultant = '';
+        $this->consultant_id = '';
+        $this->iten_id = '';
+        $this->block_id = '';
     }
 }

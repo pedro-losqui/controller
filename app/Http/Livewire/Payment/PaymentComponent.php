@@ -10,7 +10,7 @@ use App\Models\Consultant;
 
 class PaymentComponent extends Component
 {
-    public $user_id, $consultant_id, $type_service, $customer, $hours, $payment, $status;
+    public $user_id, $cons_id, $consultant_id, $type_service, $customer, $value, $hours, $payment, $status;
 
     public $consultants, $payment_id;
 
@@ -54,7 +54,8 @@ class PaymentComponent extends Component
     public function render()
     {
         return view('livewire.payment.payment-component', [
-            'payments' => Payment::all()
+            'payments' => Payment::where('consultant_id',  $this->cons_id)
+            ->get()
         ]);
     }
 
@@ -77,6 +78,7 @@ class PaymentComponent extends Component
         $this->consultant_id = $this->payment_id->consultant_id;
         $this->type_service = $this->payment_id->type_service;
         $this->customer = $this->payment_id->customer;
+        $this->value = $this->payment_id->value;
         $this->hours = $this->payment_id->hours;
         $this->payment = $this->payment_id->payment;
         $this->status = $this->payment_id->status;
@@ -100,6 +102,7 @@ class PaymentComponent extends Component
         $this->payment_id->consultant_id = $this->consultant_id;
         $this->payment_id->type_service = $this->type_service;
         $this->payment_id->customer = $this->customer;
+        $this->payment_id->value = $this->value;
         $this->payment_id->hours = $this->hours;
         $this->payment_id->payment = $this->payment;
         $this->payment_id->status = $this->status;
@@ -123,11 +126,16 @@ class PaymentComponent extends Component
 
     public function calcValue()
     {
-        $hour = Hour::where('consultant_id', $this->consultant_id)
-        ->orderBy('id', 'desc')
-        ->first();
-        $this->payment = $hour->value * $this->hours;
-        $this->value = $hour->value;
+        if ($this->edit == 0) {
+            $hour = Hour::where('consultant_id', $this->consultant_id)
+            ->orderBy('id', 'desc')
+            ->first();
+            $this->payment = $hour->value * $this->hours;
+            $this->value = $hour->value;
+        }else{
+            $this->payment = $this->payment_id->value * $this->hours;
+            $this->value = $this->payment_id->value;
+        }
     }
 
     public function default()

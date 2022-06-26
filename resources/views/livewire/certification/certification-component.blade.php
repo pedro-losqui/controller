@@ -124,8 +124,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-floating mb-3">
-                                                <select class="form-select" wire:model='consultant_id'
-                                                    id="floatingSelectGrid" aria-label="Floating label select example">
+                                                <select class="form-select" wire:model='consultant_id'>
                                                     <option selected="">Consultor</option>
                                                     @forelse($consultants as $item)
                                                         <option value="{{ $item->id }}">
@@ -144,8 +143,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-floating mb-3">
-                                                <select class="form-select" wire:model='product_id'
-                                                    id="floatingSelectGrid" aria-label="Floating label select example">
+                                                <select class="form-select" wire:model='product_id'>
                                                     <option selected="">Produto</option>
                                                     @forelse($products as $item)
                                                         <option value="{{ $item->id }}">{{ $item->description }}
@@ -163,8 +161,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-floating mb-3">
-                                                <select class="form-select" wire:model='block_id'
-                                                    id="floatingSelectGrid" aria-label="Floating label select example">
+                                                <select class="form-select" wire:model='block_id'>
                                                     <option selected="">Bloco</option>
                                                     @forelse($blocks as $item)
                                                         <option value="{{ $item->id }}">{{ $item->description }}
@@ -182,8 +179,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-floating mb-3">
-                                                <select class="form-select" wire:model='iten_id' id="floatingSelectGrid"
-                                                    aria-label="Floating label select example">
+                                                <select class="form-select" wire:model='iten_id'>
                                                     <option selected="">Item</option>
                                                     @if($block_id && $product_id)
                                                         <option value="0">Todos</option>
@@ -206,8 +202,7 @@
                                 @if($edit == 1)
                                     <div class="col-md-12">
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" wire:model='status_iten' id="floatingSelectGrid"
-                                                aria-label="Floating label select example">
+                                            <select class="form-select" wire:model='status_iten'>
                                                 <option selected="">Status</option>
                                                     <option value="0">Pendente</option>
                                                     <option value="1">Aprovado</option>

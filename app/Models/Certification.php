@@ -12,6 +12,7 @@ class Certification extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'consultant_id',
         'block_id',
         'iten_id',

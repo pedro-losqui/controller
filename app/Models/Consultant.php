@@ -10,6 +10,7 @@ class Consultant extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'user_id',
         'bday',
         'pix',

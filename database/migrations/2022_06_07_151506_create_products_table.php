@@ -15,8 +15,13 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
             $table->string('description', 150);
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 

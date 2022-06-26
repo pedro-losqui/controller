@@ -3,7 +3,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Gestão de Usuários</h4>
+                    <h4 class="card-title">Gestão de Empresas</h4>
                     </p>
 
                     <ul class="nav nav-pills" role="tablist">
@@ -17,7 +17,7 @@
                         <li class="nav-item waves-effect waves-light">
                             <a class="nav-link {{ $action == 1 ? 'active' : '' }}"
                                 wire:click='swiCreate'>
-                                <i class="dripicons-user me-1 align-middle"></i> <span
+                                <i class="mdi mdi-office-building-outline me-1 align-middle"></i> <span
                                     class="d-none d-md-inline-block">Criar/Editar</span>
                             </a>
                         </li>
@@ -42,18 +42,29 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 3cm">#</th>
-                                        <th>Nome usuário</th>
-                                        <th>Perfil</th>
+                                        <th>Empresa</th>
+                                        <th>Status</th>
+                                        <th style="width: 4cm">Data de término</th>
                                         <th style="width: 2cm">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($users as $item)
-                                        @if ($users->name =! 'Administrador Total')
+                                    @forelse($companies as $item)
+                                        @if ($item->cpnj =! '20059106000178')
                                             <tr>
                                                 <th scope="row">{{ $item->id }}</th>
-                                                <td>{{ $item->name }}</td>
-                                                <td>{{ $item->type }}</td>
+                                                <td>
+                                                    Razão social: {{ $item->company }}<br>
+                                                    CNPJ: <small>{{ $item->cnpj }}</small>
+                                                </td>
+                                                <td>
+                                                    @if ($item->status == 0)
+                                                        <span class="badge bg-danger">Inativo</span>
+                                                    @else
+                                                        <span class="badge bg-success">Ativo</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $item->end }}</td>
                                                 <td>
                                                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                         <button type="button" wire:click='swiEdit({{ $item->id }})'
@@ -90,81 +101,51 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input type="text" wire:model='name' class="form-control"
-                                                id="floatingFirstnameInput" placeholder="Nome completo">
-                                            <label for="floatingFirstnameInput">Nome completo</label>
+                                            <input type="text" wire:model='cnpj' class="form-control"
+                                                id="floatingFirstnameInput" placeholder="CNPJ" maxlength="14">
+                                            <label for="floatingFirstnameInput">CNPJ</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input type="text" wire:model='email' class="form-control"
-                                                id="floatingLastnameInput" placeholder="E-mail usurio">
-                                            <label for="floatingLastnameInput">E-mail usuário</label>
+                                            <input type="text" wire:model='company' class="form-control"
+                                                id="floatingLastnameInput" placeholder="Razão social">
+                                            <label for="floatingLastnameInput">Razão social</label>
                                         </div>
                                     </div>
                                 </div>
 
-                                @if($edit == 0)
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" wire:model='password' class="form-control"
-                                                    id="floatingFirstnameInput" placeholder="Senha">
-                                                <label for="floatingFirstnameInput">Senha</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" wire:model='password_confirm'
-                                                    class="form-control" id="floatingLastnameInput"
-                                                    placeholder="Confirmação de senha">
-                                                <label for="floatingLastnameInput">Confirmação de senha</label>
-                                            </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="date" wire:model='start' class="form-control"
+                                                id="floatingFirstnameInput" placeholder="Inicio">
+                                            <label for="floatingFirstnameInput">Data de inicio</label>
                                         </div>
                                     </div>
-                                @endif
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="date" wire:model='end'
+                                                class="form-control" id="floatingLastnameInput"
+                                                placeholder="Término">
+                                            <label for="floatingLastnameInput">Data de término</label>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" wire:model='type' id="floatingSelectGrid"
+                                            <select class="form-select" wire:model='status' id="floatingSelectGrid"
                                                 aria-label="Floating label select example">
-                                                <option selected="">Perfil de usuário</option>
-                                                <option value="1">Administrador</option>
-                                                <option value="0">Consultor</option>
+                                                <option selected="">Situação</option>
+                                                <option value="1">Ativa</option>
+                                                <option value="0">Inativa</option>
                                             </select>
-                                            <label for="floatingSelectGrid">Acesso</label>
+                                            <label for="floatingSelectGrid">Situação</label>
                                         </div>
                                     </div>
                                 </div>
-
-                                @if($edit == 1)
-                                    <div class="mb-3">
-                                        <button type="button"
-                                            {{ $resPass == 1 ? 'disabled' : '' }}
-                                            wire:click='resPass' class="btn btn-primary waves-effect waves-light">
-                                            Atualizar Senha <i class="ri-lock-unlock-line align-middle ms-1"></i>
-                                        </button>
-                                        @if($resPass == 1)
-                                            {{ $password }}
-                                        @endif
-                                    </div>
-                                @endif
-
-                                @if($edit == 1)
-                                    <div class="mb-3">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" wire:model='status'
-                                                id="inlineRadio1" value="1">
-                                            <label class="form-check-label" for="inlineRadio1">Ativo</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" wire:model='status'
-                                                id="inlineRadio2" value="0">
-                                            <label class="form-check-label" for="inlineRadio2">Inativo</label>
-                                        </div>
-                                    </div>
-                                @endif
 
                                 <div>
                                     @if($edit == 0)

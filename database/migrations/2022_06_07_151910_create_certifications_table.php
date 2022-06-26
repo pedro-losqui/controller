@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('certifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('consultant_id');
             $table->unsignedBigInteger('block_id');
             $table->unsignedBigInteger('iten_id');
@@ -22,6 +23,10 @@ return new class extends Migration
             $table->enum('status_block', ['0', '1'])->nullable()->default('0');
             $table->enum('status_iten', ['0', '1'])->nullable()->default('0');
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
 
             $table->foreign('consultant_id')->references('id')->on('consultants')
             ->onUpdate('cascade')

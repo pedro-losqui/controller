@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('consultant_id');
             $table->enum('type_service', ['0', '1'])->nullable()->default('0');
@@ -24,6 +25,10 @@ return new class extends Migration
             $table->float('payment')->nullable();
             $table->enum('status', ['0', '1', '2'])->nullable()->default('0');
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
 
             $table->foreign('user_id')->references('id')->on('users')
             ->onUpdate('cascade')

@@ -63,6 +63,15 @@
                         <span>Ordem de Serviço</span>
                     </a>
                 </li>
+
+                <li class="menu-title">Administração</li>
+
+                <li>
+                    <a href="{{ route('company') }}" class=" waves-effect">
+                        <i class="mdi mdi-office-building-outline"></i>
+                        <span>Empresas</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

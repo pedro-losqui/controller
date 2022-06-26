@@ -11,6 +11,7 @@ class Iten extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'product_id',
         'block_id',
         'description'

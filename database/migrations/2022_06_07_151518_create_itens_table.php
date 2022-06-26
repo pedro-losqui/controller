@@ -15,10 +15,15 @@ return new class extends Migration
     {
         Schema::create('itens', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('block_id');
             $table->string('description', 150);
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
 
             $table->foreign('product_id')->references('id')->on('products')
             ->onUpdate('cascade')

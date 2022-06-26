@@ -32,6 +32,25 @@
                                 </div>
                             @endif
 
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" wire:model='cons_id'
+                                        id="floatingSelectGrid" aria-label="Floating label select example">
+                                        <option>Selecione um consultor</option>
+                                        @forelse($consultants as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->user['name'] }}
+                                            </option>
+                                        @empty
+                                            <div class="alert alert-danger mb-0 mt-3" role="alert">
+                                                Selecione um consultor.
+                                            </div>
+                                        @endforelse
+                                    </select>
+                                    <label for="floatingSelectGrid">Usuário/Consultor</label>
+                                </div>
+                            </div>
+
                             <table class="table table-bordered mb-0 mt-3">
                                 <thead>
                                     <tr>

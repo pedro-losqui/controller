@@ -10,6 +10,7 @@ class Hour extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'consultant_id',
         'value',
     ];
