@@ -6,16 +6,18 @@ use App\Models\Iten;
 use App\Models\Block;
 use App\Models\Product;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class ItenComponent extends Component
 {
-    public $iten, $block_id, $blocks, $product_id, $product, $description;
+    public $company_id, $iten, $block_id, $blocks, $product_id, $product, $description;
 
     public $action, $edit;
 
     public $search;
 
     protected $rules = [
+        'company_id' => 'required',
         'block_id' => 'required',
         'product_id' => 'required',
         'description' => 'required',
@@ -36,10 +38,18 @@ class ItenComponent extends Component
 
     public function render()
     {
-        return view('livewire.iten.iten-component', [
-            'itens' => Iten::where('description', 'like', '%'. $this->search .'%')
-            ->get()
-        ]);
+        if (Auth::user()->type == '0') {
+            return view('livewire.iten.iten-component', [
+                'itens' => Iten::where('description', 'like', '%'. $this->search .'%')
+                ->get()
+            ]);
+        } else {
+            return view('livewire.iten.iten-component', [
+                'itens' => Iten::where('description', 'like', '%'. $this->search .'%')
+                ->where('company_id', Auth::user()->company->id)
+                ->get()
+            ]);
+        }
     }
 
     public function swiView()
@@ -68,6 +78,7 @@ class ItenComponent extends Component
 
     public function save()
     {
+        $this->company_id = Auth::user()->company->id;
         $this->firstUpp();
 
         Iten::create($this->validate());
@@ -78,6 +89,7 @@ class ItenComponent extends Component
 
     public function update()
     {
+        $this->iten->company_id = Auth::user()->company->id;
         $this->iten->description = $this->firstUpp();
         $this->iten->product_id = $this->product_id;
         $this->iten->block_id = $this->block_id;
@@ -110,6 +122,7 @@ class ItenComponent extends Component
 
     public function default()
     {
+        $this->company_id = '';
         $this->product_id = '';
         $this->block_id = '';
         $this->iten = '';

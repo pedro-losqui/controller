@@ -19,9 +19,9 @@ class UserFactory extends Factory
     {
         return [
             'company_id' =>  '1',
-            'name' =>  'Administrador Total',
+            'name' =>  'Administrador Geral',
             'email' => 'admin@admin.com.br',
-            'password' => '$2y$10$xroSBjEQs6yanDSFE9TqIOycCTDCODTk/gnOC2vVEllj7WweCEo9u', //RuSlCWxK
+            'password' => '$2y$10$OXLjsvg1Jw8vF4n2wagqqucbGC8IYVLnp2nu1ZK4aqJSl9xWrehU6', //^@EO1d*kWhxf
             'status' => '1',
             'type' => '0',
         ];

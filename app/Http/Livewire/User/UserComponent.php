@@ -3,14 +3,19 @@
 namespace App\Http\Livewire\User;
 
 use App\Models\User;
+use App\Models\Company;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UserComponent extends Component
 {
+    use AuthorizesRequests;
+
     public $name, $email, $password, $password_confirm, $status, $type, $user;
 
-    public $action, $edit, $resPass;
+    public $action, $edit, $resPass, $companies, $company_id;
 
     public $search;
 
@@ -20,6 +25,7 @@ class UserComponent extends Component
         'password' => 'required',
         'password_confirm' => 'required|same:password',
         'type' => 'required',
+        'company_id' => '',
     ];
 
     protected $validationAttributes = [
@@ -29,6 +35,7 @@ class UserComponent extends Component
 
     public function mount()
     {
+        $this->getCompany();
         $this->resPass = 0;
         $this->action = 0;
         $this->edit = 0;
@@ -36,11 +43,21 @@ class UserComponent extends Component
 
     public function render()
     {
-        return view('livewire.user.user-component', [
-            'users' => User::where('name', 'like', '%'. $this->search .'%')
-            ->orderBy('id', 'DESC')
-            ->get()
-        ]);
+        if (Auth::user()->type == '0') {
+            return view('livewire.user.user-component', [
+                'users' => User::where('name', 'like', '%'. $this->search .'%')
+                ->orderBy('id', 'DESC')
+                ->get()
+            ]);
+        } else {
+            return view('livewire.user.user-component', [
+                'users' => User::where('name', 'like', '%'. $this->search .'%')
+                ->where('company_id', Auth::user()->company->id)
+                ->orderBy('id', 'DESC')
+                ->get()
+            ]);
+        }
+
     }
 
     public function swiView()
@@ -73,6 +90,7 @@ class UserComponent extends Component
         $this->validate();
 
         User::create([
+            'company_id' => $this->checkCompany(),
             'name' => $this->firstUpp(),
             'email' => $this->email,
             'password' => $this->hashPass(),
@@ -86,6 +104,7 @@ class UserComponent extends Component
 
     public function update()
     {
+        $this->user->company_id = $this->checkCompany();
         $this->user->name = $this->firstUpp();
         $this->user->email = $this->email;
         $this->user->status = $this->status;
@@ -99,6 +118,20 @@ class UserComponent extends Component
 
         session()->flash('success', 'Usuário alterado com sucesso.');
         return redirect()->to('/user');
+    }
+
+    public function checkCompany()
+    {
+        if (empty($this->company_id)) {
+            return Auth::user()->company->id;
+        }
+
+        return $this->company_id;
+    }
+
+    public function getCompany()
+    {
+        $this->companies = Company::all();
     }
 
     public function firstUpp()
@@ -143,6 +176,7 @@ class UserComponent extends Component
 
     public function default()
     {
+        $this->company_id = '';
         $this->name = '';
         $this->email = '';
         $this->password = '';

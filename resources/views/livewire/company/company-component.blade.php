@@ -50,34 +50,32 @@
                                 </thead>
                                 <tbody>
                                     @forelse($companies as $item)
-                                        @if ($item->cpnj =! '20059106000178')
-                                            <tr>
-                                                <th scope="row">{{ $item->id }}</th>
-                                                <td>
-                                                    Razão social: {{ $item->company }}<br>
-                                                    CNPJ: <small>{{ $item->cnpj }}</small>
-                                                </td>
-                                                <td>
-                                                    @if ($item->status == 0)
-                                                        <span class="badge bg-danger">Inativo</span>
-                                                    @else
-                                                        <span class="badge bg-success">Ativo</span>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $item->end }}</td>
-                                                <td>
-                                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                        <button type="button" wire:click='swiEdit({{ $item->id }})'
-                                                            class="btn btn-sm btn-outline-primary">
-                                                            <i class=" dripicons-document-edit"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-sm btn-outline-primary">
-                                                            <i class="dripicons-trash"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endif
+                                        <tr>
+                                            <th scope="row">{{ $item->id }}</th>
+                                            <td>
+                                                Razão social: {{ $item->company }}<br>
+                                                CNPJ: <small>{{ $item->cnpj }}</small>
+                                            </td>
+                                            <td>
+                                                @if ($item->status == 0)
+                                                    <span class="badge bg-danger">Inativo</span>
+                                                @else
+                                                    <span class="badge bg-success">Ativo</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ date('d/m/Y', strtotime($item->end)) }}</td>
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                    <button type="button" wire:click='swiEdit({{ $item->id }})'
+                                                        class="btn btn-sm btn-outline-primary">
+                                                        <i class=" dripicons-document-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary">
+                                                        <i class="dripicons-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     @empty
                                         <div class="alert alert-danger mb-0 mt-3" role="alert">
                                             Nenhum registro encontrado.

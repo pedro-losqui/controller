@@ -27,5 +27,4 @@ class Consultant extends Model
     {
         return $this->hasOne(Hour::class, 'id', 'consultant_id');
     }
-
 }

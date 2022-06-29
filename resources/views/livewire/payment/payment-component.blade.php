@@ -14,13 +14,15 @@
                                     class="d-none d-md-inline-block">Listar</span>
                             </a>
                         </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link {{ $action == 1 ? 'active' : '' }}"
-                                wire:click='swiCreate'>
-                                <i class="mdi mdi-point-of-sale me-1 align-middle"></i> <span
-                                    class="d-none d-md-inline-block">Criar/Editar</span>
-                            </a>
-                        </li>
+                        @if (Auth::user()->type == '0' || Auth::user()->type == '1')
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link {{ $action == 1 ? 'active' : '' }}"
+                                    wire:click='swiCreate'>
+                                    <i class="mdi mdi-point-of-sale me-1 align-middle"></i> <span
+                                        class="d-none d-md-inline-block">Criar/Editar</span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
 
                     @if($action == 0)
@@ -32,24 +34,26 @@
                                 </div>
                             @endif
 
-                            <div class="col-md-12">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" wire:model='cons_id'
-                                        id="floatingSelectGrid" aria-label="Floating label select example">
-                                        <option>Selecione um consultor</option>
-                                        @forelse($consultants as $item)
-                                            <option value="{{ $item->id }}">
-                                                {{ $item->user['name'] }}
-                                            </option>
-                                        @empty
-                                            <div class="alert alert-danger mb-0 mt-3" role="alert">
-                                                Selecione um consultor.
-                                            </div>
-                                        @endforelse
-                                    </select>
-                                    <label for="floatingSelectGrid">Usuário/Consultor</label>
+                            @if (Auth::user()->type == '0' || Auth::user()->type == '1')
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" wire:model='cons_id'
+                                            id="floatingSelectGrid" aria-label="Floating label select example">
+                                            <option>Selecione um consultor</option>
+                                            @forelse($consultants as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->user['name'] }}
+                                                </option>
+                                            @empty
+                                                <div class="alert alert-danger mb-0 mt-3" role="alert">
+                                                    Selecione um consultor.
+                                                </div>
+                                            @endforelse
+                                        </select>
+                                        <label for="floatingSelectGrid">Usuário/Consultor</label>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
 
                             <table class="table table-bordered mb-0 mt-3">
                                 <thead>
@@ -85,13 +89,15 @@
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                     <a href="{{ route('invoice', $item->id ) }}" class="btn btn-sm btn-outline-primary"><i class="dripicons-document"></i></a>
-                                                    <button type="button" wire:click='swiEdit({{ $item->id }})'
-                                                        class="btn btn-sm btn-outline-primary">
-                                                        <i class=" dripicons-document-edit"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary">
-                                                        <i class="dripicons-trash"></i>
-                                                    </button>
+                                                    @if (Auth::user()->type == '0' || Auth::user()->type == '1')
+                                                        <button type="button" wire:click='swiEdit({{ $item->id }})'
+                                                            class="btn btn-sm btn-outline-primary">
+                                                            <i class=" dripicons-document-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-outline-primary">
+                                                            <i class="dripicons-trash"></i>
+                                                        </button>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

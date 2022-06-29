@@ -4,16 +4,18 @@ namespace App\Http\Livewire\Product;
 
 use App\Models\Product;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class ProductComponent extends Component
 {
-    public $product, $description;
+    public $company_id, $product, $description;
 
     public $action, $edit;
 
     public $search;
 
     protected $rules = [
+        'company_id' => 'required',
         'description' => 'required',
     ];
 
@@ -25,10 +27,19 @@ class ProductComponent extends Component
 
     public function render()
     {
-        return view('livewire.product.product-component', [
-            'products' => Product::where('description', 'like', '%'. $this->search .'%')
-            ->get()
-        ]);
+       if (Auth::user()->type == '0') {
+            return view('livewire.product.product-component', [
+                'products' => Product::where('description', 'like', '%'. $this->search .'%')
+                ->get()
+            ]);
+       } else {
+            return view('livewire.product.product-component', [
+                'products' => Product::where('description', 'like', '%'. $this->search .'%')
+                ->where('company_id', Auth::user()->company->id)
+                ->get()
+            ]);
+       }
+
     }
 
     public function swiView()
@@ -55,6 +66,7 @@ class ProductComponent extends Component
 
     public function save()
     {
+        $this->company_id = Auth::user()->company->id;
         $this->firstUpp();
 
         Product::create($this->validate());
@@ -65,6 +77,7 @@ class ProductComponent extends Component
 
     public function update()
     {
+        $this->product->company_id = Auth::user()->company->id;
         $this->product->description = $this->firstUpp();
         $this->product->save();
 

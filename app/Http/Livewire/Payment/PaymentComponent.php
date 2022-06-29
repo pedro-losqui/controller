@@ -7,10 +7,11 @@ use App\Models\User;
 use App\Models\Payment;
 use Livewire\Component;
 use App\Models\Consultant;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentComponent extends Component
 {
-    public $user_id, $cons_id, $consultant_id, $type_service, $customer, $value, $hours, $payment, $status;
+    public $company_id, $user_id, $cons_id, $consultant_id, $type_service, $customer, $value, $hours, $payment, $status;
 
     public $consultants, $payment_id;
 
@@ -19,6 +20,7 @@ class PaymentComponent extends Component
     public $search;
 
     protected $rules = [
+        'company_id' => 'required',
         'user_id' => 'required',
         'consultant_id' => 'required',
         'type_service' => 'required',
@@ -53,10 +55,29 @@ class PaymentComponent extends Component
 
     public function render()
     {
-        return view('livewire.payment.payment-component', [
-            'payments' => Payment::where('consultant_id',  $this->cons_id)
-            ->get()
-        ]);
+        switch (Auth::user()->type) {
+            case '0':
+                return view('livewire.payment.payment-component', [
+                    'payments' => Payment::where('consultant_id',  $this->cons_id)
+                    ->get()
+                ]);
+                break;
+
+            case '1':
+                return view('livewire.payment.payment-component', [
+                    'payments' => Payment::where('consultant_id',  $this->cons_id)
+                    ->where('company_id',  Auth::user()->company->id)
+                    ->get()
+                ]);
+                break;
+
+            case '2':
+                return view('livewire.payment.payment-component', [
+                    'payments' => Payment::where('consultant_id',  Auth::user()->consultant->id)
+                    ->get()
+                ]);
+                break;
+        }
     }
 
     public function swiView()
@@ -89,6 +110,7 @@ class PaymentComponent extends Component
 
     public function save()
     {
+        $this->company_id = Auth::user()->company->id;
         $this->user_id = 1;
 
         Payment::create($this->validate());
@@ -99,6 +121,7 @@ class PaymentComponent extends Component
 
     public function update()
     {
+        $this->payment_id->company_id = Auth::user()->company->id;
         $this->payment_id->consultant_id = $this->consultant_id;
         $this->payment_id->type_service = $this->type_service;
         $this->payment_id->customer = $this->customer;
@@ -121,7 +144,8 @@ class PaymentComponent extends Component
 
     public function getConsultant()
     {
-        $this->consultants = Consultant::all();
+        $this->consultants = Consultant::where('company_id', Auth::user()->company->id)
+        ->get();
     }
 
     public function calcValue()

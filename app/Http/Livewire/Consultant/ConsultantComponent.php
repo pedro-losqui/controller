@@ -6,10 +6,11 @@ use App\Models\Hour;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\Consultant;
+use Illuminate\Support\Facades\Auth;
 
 class ConsultantComponent extends Component
 {
-    public $user_id, $bday, $pix, $cpf, $rg, $consultant, $users, $ids = [];
+    public $company_id, $user_id, $bday, $pix, $cpf, $rg, $consultant, $users, $ids = [];
 
     public $date, $value, $hours;
 
@@ -20,6 +21,7 @@ class ConsultantComponent extends Component
     protected $listeners = ['save'];
 
     protected $rules = [
+        'company_id' => 'required',
         'user_id' => 'required',
         'pix' => 'required',
         'bday' => 'required',
@@ -43,13 +45,25 @@ class ConsultantComponent extends Component
 
     public function render()
     {
-        return view('livewire.consultant.consultant-component', [
-            'consultants' => Consultant::whereHas('user', function($query){
-                $query->where('name', 'like', '%'. $this->search .'%');
-             })
-            ->orderBy('id', 'DESC')
-            ->get()
-        ]);
+        if (Auth::user()->type == '0') {
+            return view('livewire.consultant.consultant-component', [
+                'consultants' => Consultant::whereHas('user', function($query){
+                    $query->where('name', 'like', '%'. $this->search .'%');
+                 })
+                ->orderBy('id', 'DESC')
+                ->get()
+            ]);
+        } else {
+            return view('livewire.consultant.consultant-component', [
+                'consultants' => Consultant::whereHas('user', function($query){
+                    $query->where('name', 'like', '%'. $this->search .'%');
+                 })
+                ->where('company_id', Auth::user()->company->id)
+                ->orderBy('id', 'DESC')
+                ->get()
+            ]);
+        }
+
     }
 
     public function swiView()
@@ -84,9 +98,11 @@ class ConsultantComponent extends Component
 
     public function save()
     {
+        $this->company_id = Auth::user()->company->id;
         $this->consultant = Consultant::create($this->validate());
 
         Hour::create([
+            'company_id' =>  Auth::user()->company->id,
             'consultant_id' =>  $this->consultant->id,
             'value' => $this->value,
         ]);
@@ -110,6 +126,7 @@ class ConsultantComponent extends Component
     public function updateHour()
     {
         Hour::create([
+            'company_id' =>  Auth::user()->company->id,
             'consultant_id' =>  $this->consultant->id,
             'value' => $this->value,
         ]);
@@ -126,7 +143,13 @@ class ConsultantComponent extends Component
 
     public function getConsultant()
     {
-        $consultant_id = Consultant::all();
+        if (Auth::user()->type == '0') {
+            $consultant_id = Consultant::all();
+        } else {
+            $consultant_id = Consultant::where('company_id', Auth::user()->company->id)
+            ->get();
+        }
+
 
         foreach ($consultant_id as $item) {
             array_push($this->ids, $item->user_id);
@@ -137,7 +160,12 @@ class ConsultantComponent extends Component
 
     public function getUsers()
     {
-        $this->users = User::all();
+        if (Auth::user()->type == '0') {
+            $this->users  = User::all();
+        } else {
+            $this->users  = User::where('company_id', Auth::user()->company->id)
+            ->get();
+        }
     }
 
     public function default()

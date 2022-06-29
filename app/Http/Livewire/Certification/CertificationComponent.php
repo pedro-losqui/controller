@@ -8,10 +8,11 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\Consultant;
 use App\Models\Certification;
+use Illuminate\Support\Facades\Auth;
 
 class CertificationComponent extends Component
 {
-    public $certification, $cons_id, $consultant_id, $iten_id, $percent_block, $status_block, $status_iten;
+    public $company_id, $certification, $cons_id, $consultant_id, $iten_id, $percent_block, $status_block, $status_iten;
 
     public $consultants, $products, $product_id, $blocks, $block_id, $itens;
 
@@ -20,6 +21,7 @@ class CertificationComponent extends Component
     public $search;
 
     protected $rules = [
+        'company_id' => '',
         'consultant_id' => 'required',
         'product_id' => 'required',
         'block_id' => 'required',
@@ -51,10 +53,28 @@ class CertificationComponent extends Component
 
     public function render()
     {
-        return view('livewire.certification.certification-component', [
-            'certifications' => Certification::where('consultant_id',  $this->cons_id)
-            ->get()
-        ]);
+        switch (Auth::user()->type) {
+        case '0':
+            return view('livewire.certification.certification-component', [
+                'certifications' => Certification::where('consultant_id',  $this->cons_id)
+                ->get()
+            ]);
+            break;
+
+        case '1':
+            return view('livewire.certification.certification-component', [
+                'certifications' => Certification::where('consultant_id',  $this->cons_id)
+                ->where('company_id', Auth::user()->company->id)
+                ->get()
+            ]);
+        case '2':
+            return view('livewire.certification.certification-component', [
+                'certifications' => Certification::where('consultant_id', Auth::user()->consultant->id)
+                ->get()
+            ]);
+            break;
+        }
+
     }
 
     public function swiView()
@@ -81,6 +101,8 @@ class CertificationComponent extends Component
 
     public function save()
     {
+        $this->company_id = Auth::user()->company->id;
+
         if ($this->iten_id == 0) {
             $this->saveAll();
         } else {
@@ -97,6 +119,7 @@ class CertificationComponent extends Component
         $this->validate();
         foreach ($this->itens as $key => $value) {
             Certification::create([
+                'company_id' => Auth::user()->company->id,
                 'consultant_id' => $this->consultant_id,
                 'block_id' => $this->block_id,
                 'iten_id' => $value->id,
@@ -109,6 +132,7 @@ class CertificationComponent extends Component
 
     public function update()
     {
+        $this->certifiction->company_id = Auth::user()->company->id;
         $this->certifiction->status_iten = $this->status_iten;
         $this->certifiction->save();
         $this->updateProgress();
@@ -140,7 +164,8 @@ class CertificationComponent extends Component
 
     public function getConsultant()
     {
-        return $this->consultants = Consultant::all();
+        $this->consultants = Consultant::where('company_id', Auth::user()->company->id)
+        ->get();
     }
 
     public function getProduct()

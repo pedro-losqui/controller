@@ -49,11 +49,17 @@
                                 </thead>
                                 <tbody>
                                     @forelse($users as $item)
-                                        @if ($users->name =! 'Administrador Total')
+                                        @if ($item->name != 'Administrador Geral')
                                             <tr>
                                                 <th scope="row">{{ $item->id }}</th>
                                                 <td>{{ $item->name }}</td>
-                                                <td>{{ $item->type }}</td>
+                                                <td>
+                                                    @if ($item->type == "1")
+                                                        <span class="badge bg-primary">Administrador</span>
+                                                    @else
+                                                        <span class="badge bg-primary">Consultor</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                         <button type="button" wire:click='swiEdit({{ $item->id }})'
@@ -87,6 +93,25 @@
                                 </div>
                             @endif
                             <form>
+                                @if (Auth::user()->type == '0')
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-floating mb-3">
+                                                <select class="form-select" wire:model='company_id' id="floatingSelectGrid"
+                                                    aria-label="Floating label select example">
+                                                    <option selected="">Empresa</option>
+                                                    @foreach ($companies as $item)
+                                                        @if ($item->cnpj != '20059106000178')
+                                                            <option value="{{ $item->id }}">{{ $item->company }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                                <label for="floatingSelectGrid">Empresa</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
@@ -131,7 +156,7 @@
                                                 aria-label="Floating label select example">
                                                 <option selected="">Perfil de usuário</option>
                                                 <option value="1">Administrador</option>
-                                                <option value="0">Consultor</option>
+                                                <option value="2">Consultor</option>
                                             </select>
                                             <label for="floatingSelectGrid">Acesso</label>
                                         </div>

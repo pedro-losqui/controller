@@ -5,16 +5,18 @@ namespace App\Http\Livewire\Block;
 use App\Models\Block;
 use App\Models\Product;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class BlockComponent extends Component
 {
-    public $products, $block, $description;
+    public $company_id, $products, $block, $description;
 
     public $action, $edit;
 
     public $search;
 
     protected $rules = [
+        'company_id' => 'required',
         'description' => 'required',
     ];
 
@@ -27,10 +29,19 @@ class BlockComponent extends Component
 
     public function render()
     {
-        return view('livewire.block.block-component', [
-            'blocks' => Block::where('description', 'like', '%'. $this->search .'%')
-            ->get()
-        ]);
+        if (Auth::user()->type == '0') {
+            return view('livewire.block.block-component', [
+                'blocks' => Block::where('description', 'like', '%'. $this->search .'%')
+                ->get()
+            ]);
+        } else {
+            return view('livewire.block.block-component', [
+                'blocks' => Block::where('description', 'like', '%'. $this->search .'%')
+                ->where('company_id', Auth::user()->company->id)
+                ->get()
+            ]);
+        }
+
     }
 
     public function swiView()
@@ -57,6 +68,7 @@ class BlockComponent extends Component
 
     public function save()
     {
+        $this->company_id = Auth::user()->company->id;
         $this->firstUpp();
 
         Block::create($this->validate());
@@ -67,6 +79,7 @@ class BlockComponent extends Component
 
     public function update()
     {
+        $this->block->company_id = Auth::user()->company->id;
         $this->block->description = $this->firstUpp();
         $this->block->save();
 
@@ -92,6 +105,7 @@ class BlockComponent extends Component
 
     public function default()
     {
+        $this->company_id = '';
         $this->block = '';
         $this->description = '';
     }

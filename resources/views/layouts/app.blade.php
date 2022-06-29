@@ -21,13 +21,13 @@
             <div class="navbar-header">
                 <div class="d-flex">
                     <div class="navbar-brand-box text-center">
-                        <a href="index.html" class="logo logo-light">
-                            {{-- <span class="logo-sm">
-                                <img src="assets/images/logo-sm.png" alt="logo-sm-light" height="22">
+                        <a href="{{ route('home') }}" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="{{ asset('assets/images/logo-integra-mini.png') }}" height="54">
                             </span>
                             <span class="logo-lg">
-                                <img src="assets/images/logo-light.png" alt="logo-light" height="24">
-                            </span> --}}
+                                <img src="{{ asset('assets/images/logo-integra.png') }}" height="54">
+                            </span>
                         </a>
                     </div>
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
@@ -49,11 +49,14 @@
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle header-profile-user" src="{{ asset('assets/images/users/user.png') }}"
                                 alt="Header Avatar">
-                            <span class="d-none d-xl-inline-block ms-1">Usuário Teste</span>
+                            <span class="d-none d-xl-inline-block ms-1">{{ Auth::user()->name }}</span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item text-danger" href="auth-login.html"><i
+                            <form id="logout" action="{{ route('logout') }}" method="post">
+                                @csrf
+                            </form>
+                            <a class="dropdown-item text-danger" href="#" onClick="document.getElementById('logout').submit();"><i
                                     class="ri-shut-down-line align-middle me-1 text-danger"></i> Sair</a>
                         </div>
                     </div>

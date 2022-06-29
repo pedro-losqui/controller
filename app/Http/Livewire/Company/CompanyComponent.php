@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class CompanyComponent extends Component
 {
-    public $compan_id, $cnpj, $company, $start, $end, $status;
+    public $company_id, $cnpj, $company, $start, $end, $status;
 
     public $action, $edit;
 
@@ -36,7 +36,9 @@ class CompanyComponent extends Component
     public function render()
     {
         return view('livewire.company.company-component', [
-            'companies' => Company::all()
+            'companies' => Company::where('company', 'like', '%'. $this->search .'%')
+            ->orderBy('id', 'DESC')
+            ->get()
         ]);
     }
 
@@ -54,12 +56,13 @@ class CompanyComponent extends Component
 
     public function swiEdit($id)
     {
-        $this->user = User::find($id);
+        $this->company_id = Company::find($id);
 
-        $this->name = $this->user->name;
-        $this->email = $this->user->email;
-        $this->status = $this->user->status;
-        $this->type = $this->user->type;
+        $this->cnpj = $this->company_id->cnpj;
+        $this->company = $this->company_id->company;
+        $this->start = $this->company_id->start;
+        $this->end = $this->company_id->end;
+        $this->status = $this->company_id->status;
 
         $this->action = 1;
         $this->edit = 1;
@@ -77,16 +80,13 @@ class CompanyComponent extends Component
 
     public function update()
     {
-        $this->user->name = $this->firstUpp();
-        $this->user->email = $this->email;
-        $this->user->status = $this->status;
-        $this->user->type = $this->type;
+        $this->company_id->cnpj = $this->cnpj;
+        $this->company_id->company = $this->company;
+        $this->company_id->start = $this->start;
+        $this->company_id->end = $this->end;
+        $this->company_id->status = $this->status;
 
-        if ($this->resPass == 1) {
-            $this->user->password = $this->hashPass();
-        }
-
-        $this->user->save();
+        $this->company_id->save();
 
         session()->flash('success', 'Empresa alterado com sucesso.');
         return redirect()->to('/company');
@@ -94,7 +94,7 @@ class CompanyComponent extends Component
 
     public function toUpp()
     {
-        return mb_strtoupper($this->company, 'UTF-8');
+        return $this->company = strtoupper($this->company);
     }
 
     public function cancel()
