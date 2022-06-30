@@ -14,7 +14,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="mb-1">Usuários cadastrados</p>
-                            <h5 class="mb-3">435</h5>
+                            <h5 class="mb-3">0</h5>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="mb-1">Consultores cadastrados</p>
-                            <h5 class="mb-3">435</h5>
+                            <h5 class="mb-3">0</h5>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="mb-1">Produtos cadastrados</p>
-                            <h5 class="mb-3">435</h5>
+                            <h5 class="mb-3">0</h5>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="mb-1">Itens cadastrados</p>
-                            <h5 class="mb-3">435</h5>
+                            <h5 class="mb-3">0</h5>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="mb-1">Pagamento pendente</p>
-                            <h5 class="mb-3">435</h5>
+                            <h5 class="mb-3">0</h5>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="mb-1">Pagamento realizado</p>
-                            <h5 class="mb-3">435</h5>
+                            <h5 class="mb-3">0</h5>
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="mb-1">Pagamento cancelado</p>
-                            <h5 class="mb-3">435</h5>
+                            <h5 class="mb-3">0</h5>
                         </div>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="mb-1">Total de pagamentos</p>
-                            <h5 class="mb-3">435</h5>
+                            <h5 class="mb-3">0</h5>
                         </div>
                     </div>
                 </div>
