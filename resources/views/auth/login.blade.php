@@ -21,6 +21,7 @@
                         <div class="card-body p-4">
                             <div class="">
                                 <div class="text-center">
+                                    <img src="{{ asset('assets/images/logo-integra-mini.png') }}" height="54">
                                 </div>
                                 <h4 class="font-size-18 text-muted mt-2 text-center">Integra</h4>
                                 <p class="mb-5 text-center">Faça login para continuar.</p>

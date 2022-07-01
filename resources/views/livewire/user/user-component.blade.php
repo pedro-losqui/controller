@@ -101,9 +101,7 @@
                                                     aria-label="Floating label select example">
                                                     <option selected="">Empresa</option>
                                                     @foreach ($companies as $item)
-                                                        @if ($item->cnpj != '20059106000178')
                                                             <option value="{{ $item->id }}">{{ $item->company }}</option>
-                                                        @endif
                                                     @endforeach
                                                 </select>
                                                 <label for="floatingSelectGrid">Empresa</label>
