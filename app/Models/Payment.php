@@ -23,7 +23,7 @@ class Payment extends Model
 
     public function consultant()
     {
-        return $this->hasOne(consultant::class, 'id', 'consultant_id');
+        return $this->hasOne(Consultant::class, 'id', 'consultant_id');
     }
 
     public function user()
