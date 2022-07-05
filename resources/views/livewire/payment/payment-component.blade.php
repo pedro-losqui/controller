@@ -84,7 +84,7 @@
                                                         <span class="badge bg-danger">Cancelado</span>
                                                 @endswitch
                                                 <br>
-                                                <small>Apontamento: {{ $item->hours }} Horas - R$: {{ $item->payment }}</small>
+                                                <small>Apontamento: {{ $item->hours }} Horas - R$: {{ number_format($item->payment, 2) }}</small>
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -176,8 +176,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating mb-3">
-                                            <input type="text" wire:model='payment' class="form-control"
-                                                id="floatingLastnameInput" placeholder="Valor total" readonly>
+                                            <input type="text" value="R$ {{ $payment ? number_format($payment, 2) : '0' }}" class="form-control"
+                                                id="floatingLastnameInput" readonly>
                                             <label for="floatingLastnameInput">Valor total</label>
                                         </div>
                                     </div>

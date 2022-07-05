@@ -85,7 +85,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $payment->hours }}</td>
-                                    <td>R$ {{ $payment->value }}</td>
+                                    <td>R$ {{ number_format($payment->value, 2) }}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -101,7 +101,7 @@
                     <div class="col-sm-6">
                         <div class="float-end">
                             <p><b>Sub-total:</b></p>
-                            <h3>R$ {{ $payment->payment }} BRL</h3>
+                            <h3>R$ {{ number_format($payment->payment, 2) }} BRL</h3>
                         </div>
                         <div class="clearfix"></div>
                     </div>
