@@ -45,7 +45,7 @@ class LoginController extends Controller
                 return redirect()->intended('/home');
             }else if (Auth::user()->type == 2) {
                 $request->session()->regenerate();
-                return redirect()->intended('/consultant');
+                return redirect()->intended('/payment');
             }
 
         }else{

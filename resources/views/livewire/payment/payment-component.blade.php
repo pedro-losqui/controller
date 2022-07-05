@@ -58,7 +58,7 @@
                             <table class="table table-bordered mb-0 mt-3">
                                 <thead>
                                     <tr>
-                                        <th style="width: 2cm">#</th>
+                                        <th style="width: 2cm">Ordem</th>
                                         <th>Consultor/Cliente</th>
                                         <th>Horas/Status</th>
                                         <th style="width: 2cm">Ações</th>
@@ -84,7 +84,7 @@
                                                         <span class="badge bg-danger">Cancelado</span>
                                                 @endswitch
                                                 <br>
-                                                <small>Apontamento: {{ $item->hours }} Horas</small>
+                                                <small>Apontamento: {{ $item->hours }} Horas - R$: {{ $item->payment }}</small>
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -109,6 +109,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        <br>
+                        {{ $payments->links('modules.paginate') }}
                     @else
                         <div class="tab-content mt-3">
                             @if($errors->any())
@@ -123,7 +125,6 @@
                         </div>
                         <div class="tab-content mt-3">
                             <form>
-
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <select class="form-select" wire:model='consultant_id' id="floatingSelectGrid"
@@ -170,7 +171,7 @@
                                         <div class="form-floating mb-3">
                                             <input type="number" wire:model='hours' class="form-control"
                                                 id="floatingLastnameInput" placeholder="Horas apontadas">
-                                            <label for="floatingLastnameInput">Horas apontadas</label>
+                                            <label for="">Horas apontadas</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -196,8 +197,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div>
                                     @if($edit == 0)
                                         <button type="button" wire:click='save'

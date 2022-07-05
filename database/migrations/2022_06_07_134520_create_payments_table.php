@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('consultant_id');
             $table->enum('type_service', ['0', '1'])->nullable()->default('0');
             $table->string('customer', 100);
-            $table->integer('value')->unsigned();
+            $table->float('value')->unsigned();
             $table->integer('hours')->unsigned();
             $table->float('payment')->nullable();
             $table->enum('status', ['0', '1', '2'])->nullable()->default('0');

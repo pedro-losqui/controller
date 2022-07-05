@@ -8,9 +8,12 @@ use App\Models\Payment;
 use Livewire\Component;
 use App\Models\Consultant;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
 class PaymentComponent extends Component
 {
+    use WithPagination;
+
     public $company_id, $user_id, $cons_id, $consultant_id, $type_service, $customer, $value, $hours, $payment, $status;
 
     public $consultants, $payment_id;
@@ -59,22 +62,30 @@ class PaymentComponent extends Component
             case '0':
                 return view('livewire.payment.payment-component', [
                     'payments' => Payment::where('consultant_id',  $this->cons_id)
-                    ->get()
+                    ->paginate(20)
                 ]);
                 break;
 
             case '1':
-                return view('livewire.payment.payment-component', [
-                    'payments' => Payment::where('consultant_id',  $this->cons_id)
-                    ->where('company_id',  Auth::user()->company->id)
-                    ->get()
-                ]);
+                if ($this->cons_id) {
+                    return view('livewire.payment.payment-component', [
+                        'payments' => Payment::where('consultant_id',  $this->cons_id)
+                        ->where('company_id',  Auth::user()->company->id)
+                        ->paginate(20)
+                    ]);
+                } else {
+                    return view('livewire.payment.payment-component', [
+                        'payments' => Payment::where('company_id',  Auth::user()->company->id)
+                        ->paginate(20)
+                    ]);
+                }
+
                 break;
 
             case '2':
                 return view('livewire.payment.payment-component', [
                     'payments' => Payment::where('consultant_id',  Auth::user()->consultant->id)
-                    ->get()
+                    ->paginate(20)
                 ]);
                 break;
         }

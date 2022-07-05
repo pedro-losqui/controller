@@ -157,7 +157,7 @@
                                         <h4 class="card-title">Valor Hora</h4>
                                         <div class="col-md-12">
                                             <div class="form-floating mb-3">
-                                                <input type="number" wire:model='value' class="form-control" id="floatingLastnameInput"
+                                                <input type="text" wire:model='value' class="form-control" onKeyUp="mascaraMoeda(this, event)"
                                                     placeholder="Valor Hora">
                                                 <label for="floatingLastnameInput">Valor Hora</label>
                                             </div>
@@ -183,7 +183,7 @@
                                                         <li class="event-list">
                                                             <div>
                                                                 <p class="text-primary">{{ $item->created_at->format('d/m/Y') }}</p>
-                                                                <h5>R$: {{ $item->value }},00</h5>
+                                                                <h5>R$: {{ $item->value }}</h5>
                                                             </div>
                                                         </li>
                                                     @endforeach
