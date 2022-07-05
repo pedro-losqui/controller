@@ -84,7 +84,7 @@
                                             Particular
                                         @endif
                                     </td>
-                                    <td>{{ $payment->hours }}</td>
+                                    <td>{{ $payment->hours }}h</td>
                                     <td>R$ {{ number_format($payment->value, 2) }}</td>
                                 </tr>
                                 </tbody>

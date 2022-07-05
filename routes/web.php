@@ -6,6 +6,7 @@ use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\ItenController;
 use App\Http\Controllers\Pages\UserController;
 use App\Http\Controllers\Pages\BlockController;
+use App\Http\Controllers\Pages\ProfileController;
 use App\Http\Controllers\Pages\CompanyController;
 use App\Http\Controllers\Pages\InvoiceController;
 use App\Http\Controllers\Pages\PaymentController;
@@ -26,6 +27,5 @@ Route::get('/iten',             [ItenController::class, 'index'])->name('iten')-
 Route::get('/certification',    [CertificationController::class, 'index'])->name('certification')->middleware('auth');
 Route::get('/payament',         [PaymentController::class, 'index'])->name('payament')->middleware('auth');
 Route::get('/company',          [CompanyController::class, 'index'])->name('company')->middleware('auth');
+Route::get('/profile',          [ProfileController::class, 'index'])->name('profile')->middleware('auth');
 Route::get('/invoice/{id}',     [InvoiceController::class, 'index'])->name('invoice')->middleware('auth');
-
-
